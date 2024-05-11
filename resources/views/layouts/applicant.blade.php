@@ -14,9 +14,14 @@
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
                 @include('partials._header')
+                @include('partials._applicant_nav')
+               
+       
                 {{ $slot }}
             
     </body>

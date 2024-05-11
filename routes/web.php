@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Registration\PreRegistrationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Application\ApplicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +21,15 @@ Route::get('/', function () {
 });
 
 Route::get('/pre-registration', [PreRegistrationController::class, 'index'])->name('pre-registration.index');
+Route::post('/pre-registration', [PreRegistrationController::class, 'store'])->name('pre-registration.store');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/application', [ApplicationController::class, 'personal'])->middleware(['auth','verified'])->name('application.personal');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
