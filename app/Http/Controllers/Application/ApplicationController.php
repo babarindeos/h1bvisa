@@ -10,16 +10,12 @@ use illuminate\Support\Facades\Auth;
 class ApplicationController extends Controller
 {
     //
-    private $section;
+    
 
-    public function __construct(){
-        $this->section = "A";
+    public function index(){
+
     }
 
 
-    public function personal(){
-        $user = Auth::user();
-        //dd($user);
-        return view('application.personal_information')->with(['section' => $this->section, 'user'=> $user]);
-    }
+    
 }

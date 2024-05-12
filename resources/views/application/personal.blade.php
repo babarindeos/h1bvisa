@@ -1,7 +1,7 @@
 <x-applicant-layout>
     @include('partials._section_nav')
 
-    <section>
+    <section class="mb-8">
                 <div class="flex flex-col w-full md:w-full mx-auto items-center py-4 ">
                             
                                 
@@ -405,6 +405,12 @@
 
                                         <!-- Date of Birth //-->
                                         <div class="flex flex-col w-[80%] md:flex-row md:w-[60%] md:space-x-3">
+                                                    
+                                                        <label for="day" class="font-semibold">Date of Birth</label>
+                                                    
+                                        </div>
+                                        <div class="flex flex-col w-[80%] md:flex-row md:w-[60%] md:space-x-3">
+                                                    
 
                                                     <!-- Day //-->
                                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-2">
@@ -434,7 +440,7 @@
                                                                                                     <option value='31'>31</option>
                                                                                                 </select>
 
-                                                                                                @error('surname')
+                                                                                                @error('day')
                                                                                                     <span class="text-red-700 text-sm">
                                                                                                         {{$message}}
                                                                                                     </span>
@@ -527,7 +533,7 @@
 
                                                                                             </select>
 
-                                                                                                @error('middlename')
+                                                                                                @error('year')
                                                                                                     <span class="text-red-700 text-sm">
                                                                                                         {{$message}}
                                                                                                     </span>
@@ -546,10 +552,10 @@
                                             
 
                                             <!-- submit button //-->
-                                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
+                                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-8">
                                                 <button type="submit" class="border border-1 bg-gray-400 py-4 text-white 
                                                             hover:bg-gray-500
-                                                            rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Submit</button>
+                                                            rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Save</button>
                                             </div>
 
                                             

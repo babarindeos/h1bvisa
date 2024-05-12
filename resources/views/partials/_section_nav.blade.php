@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="flex text-center justify-center font-semibold @if ($section=='F') text-gray-500 @else text-gray-300  @endif">
-                        Final
+                        Signature
                     </div>
             </div>
             <!-- end of Section F //-->
