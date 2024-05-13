@@ -5,7 +5,7 @@
         <div class="flex flex-col w-full md:w-full mx-auto items-center py-4">
             
                 
-                        <form  action="{{ route('pre-registration.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
+                        <form  action="{{ route('passport.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
                             @csrf
 
                             <div class="flex flex-col w-[80%] md:w-[60%] py-4 mt-4" style="font-family:'Lato'; font-size:18px; font-weight:350;">
@@ -16,12 +16,12 @@
                             @if (session('error'))
 
                                 @if (session('status')=='success')
-                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-semibold" 
+                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-medium" 
                                             style="font-family:'Lato'; font-size:16px;"> 
                                         {{ session('message') }}
                                     </span>
                                 @else
-                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-semibold" 
+                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-medium" 
                                             style="font-family:'Lato'; font-size:16px;">
                                         {{ session('message') }}
                                     </span>
@@ -41,7 +41,11 @@
                                                                          focus:ring
                                                                          focus:ring-blue-100" placeholder="Passport Number"
                                                                          
-                                                                         style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
+                                                                         style="font-family:'Lato';font-size:16px;font-weight:500;" 
+                                                                         
+                                                                         value="{{$passport->passport_no}}"
+                                                                         
+                                                                         required
                                                                           
                                                                          />  
                                                                                                                                                
@@ -59,7 +63,7 @@
                             <!-- Date Issued //-->
                             <div class="flex flex-col w-[80%] md:flex-row md:w-[60%] md:space-x-3 ">
                                                     
-                                                        <label for="day" class="font-semibold" style="font-family:'Lato';font-weight:600;">Date Issued</label>
+                                                        <label for="issued_day" class="font-semibold" style="font-family:'Lato';font-weight:600;">Date Issued</label>
                                                     
                             </div>
                             <div class="flex flex-col w-[80%] md:flex-row md:w-[60%] md:space-x-3">
@@ -68,7 +72,7 @@
                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-2">
                                         
                                         
-                                        <select name="day" class="border border-1 border-gray-400 bg-gray-50
+                                        <select name="issued_day" class="border border-1 border-gray-400 bg-gray-50
                                                                                 w-full p-4 rounded-md 
                                                                                 focus:outline-none
                                                                                 focus:border-blue-500 
@@ -81,17 +85,19 @@
                                                                                 
                                                                                 >  
                                                                                     <option value=''>-- Select Day --</option>
-                                                                                    <option value='1'>1</option><option value='2'>2</option><option value='3'>3</option>
-                                                                                    <option value='4'>4</option><option value='5'>5</option><option value='6'>6</option>
-                                                                                    <option value='7'>7</option><option value='8'>8</option><option value='9'>9</option>
-                                                                                    <option value='10'>10</option><option value='11'>11</option><option value='12'>12</option>
-                                                                                    <option value='13'>13</option><option value='14'>14</option><option value='15'>15</option>
-                                                                                    <option value='16'>16</option><option value='17'>17</option><option value='18'>18</option>
-                                                                                    <option value='19'>19</option><option value='20'>20</option><option value='21'>21</option>
-                                                                                    <option value='22'>22</option><option value='23'>23</option><option value='24'>24</option>
-                                                                                    <option value='25'>25</option><option value='26'>26</option><option value='27'>27</option>
-                                                                                    <option value='28'>28</option><option value='29'>29</option><option value='30'>30</option>
-                                                                                    <option value='31'>31</option>
+                                                                                    @php
+                                                                                                        
+                                                                                                        for ($day = 1; $day <=31 ; $day++)
+                                                                                                        {
+                                                                                                            $selected = '';
+                                                                                                            if ($passport->issued_day==$day){
+                                                                                                                $selected = 'selected';
+                                                                                                            }
+
+                                                                                                           echo "<option ". $selected." value='".$day."'>".$day."</option>";
+                                                                                                        }
+                                                                                                        
+                                                                                    @endphp
                                                                                 </select>
 
                                                                                 @error('day')
@@ -107,7 +113,7 @@
                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-2">
                                         
                                         
-                                        <select name="month" class="border border-1 border-gray-400 bg-gray-50
+                                        <select name="issued_month" class="border border-1 border-gray-400 bg-gray-50
                                                                                 w-full p-4 rounded-md 
                                                                                 focus:outline-none
                                                                                 focus:border-blue-500 
@@ -117,18 +123,18 @@
                                         style="font-family:'Lato';font-size:16px;font-weight:500;"
                                         required>
                                             <option value=''>-- Select Month --</option>
-                                            <option value='January'>January</option>
-                                            <option value='Febraury'>Febraury</option>
-                                            <option value='March'>March</option>
-                                            <option value='April'>April</option>
-                                            <option value='May'>May</option>
-                                            <option value='June'>June</option>
-                                            <option value='July'>July</option>
-                                            <option value='August'>August</option>
-                                            <option value='September'>September</option>
-                                            <option value='October'>October</option>
-                                            <option value='November'>November</option>
-                                            <option value='December'>December</option>
+                                            <option @if ($passport->issued_month=='January') selected @endif value='January'>January</option>
+                                            <option @if ($passport->issued_month=='February') selected @endif value='Febraury'>Febraury</option>
+                                            <option @if ($passport->issued_month=='March') selected @endif value='March'>March</option>
+                                            <option @if ($passport->issued_month=='April') selected @endif value='April'>April</option>
+                                            <option @if ($passport->issued_month=='May') selected @endif value='May'>May</option>
+                                            <option @if ($passport->issued_month=='June') selected @endif value='June'>June</option>
+                                            <option @if ($passport->issued_month=='July') selected @endif value='July'>July</option>
+                                            <option @if ($passport->issued_month=='August') selected @endif value='August'>August</option>
+                                            <option @if ($passport->issued_month=='September') selected @endif value='September'>September</option>
+                                            <option @if ($passport->issued_month=='October') selected @endif value='October'>October</option>
+                                            <option @if ($passport->issued_month=='November') selected @endif value='November'>November</option>
+                                            <option @if ($passport->issued_month=='December') selected @endif value='December'>December</option>
                                         </select>
                                         @error('month')
                                             <span class="text-red-700 text-sm">
@@ -146,7 +152,7 @@
                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-2">
                                         
                                         
-                                        <select name="Year" class="border border-1 border-gray-400 bg-gray-50
+                                        <select name="issued_year" class="border border-1 border-gray-400 bg-gray-50
                                                                                 w-full p-4 rounded-md 
                                                                                 focus:outline-none
                                                                                 focus:border-blue-500 
@@ -156,15 +162,21 @@
                                                                                 style="font-family:'Lato';font-size:16px;font-weight:500;"
                                                                                 required
                                                                                 >
-                                                                                <option value=''>-- Select Year --</option>                                                                               
-                                                                                <option value='2008'>2008</option><option value='2009'>2009</option><option value='2010'>2010</option>
-                                                                                <option value='2011'>2011</option><option value='2012'>2012</option><option value='2013'>2013</option>
-                                                                                <option value='2014'>2014</option><option value='2015'>2015</option><option value='2016'>2016</option>
-                                                                                <option value='2017'>2017</option><option value='2018'>2018</option><option value='2019'>2019</option>
-                                                                                <option value='2020'>2020</option><option value='2021'>2021</option><option value='2022'>2022</option>
-                                                                                <option value='2023'>2023</option><option value='2024'>2024</option>
+                                                                                @php
+                                                                                                        
+                                                                                                        for ($year = 2008; $year <=2024 ; $year++)
+                                                                                                        {
+                                                                                                            $selected = '';
+                                                                                                            if ($passport->issued_year==$year){
+                                                                                                                $selected = 'selected';
+                                                                                                            }
 
-                                                                                required
+                                                                                                           echo "<option ". $selected." value='".$year."'>".$year."</option>";
+                                                                                                        }
+                                                                                                        
+                                                                                @endphp
+
+                                                                            
 
                                                                             </select>
 
@@ -189,7 +201,12 @@
                                                     
                                                         <label for="day" class="font-semibold" style="font-family:'Lato';">Upload Data Page</label>
                                                         <div style="font-family:'Lato';" class='text-sm'>Upload a picture of the Data page of your international passport</div>
-                                                    
+
+                                                        <div class='bg-green-100 px-2 py-2 rounded-md mt-1'>
+                                                                @if ($passport->data_page!='')
+                                                                    <a class="text-sm hover:underline" target='_blank' href="{{asset($passport->data_page)}}">Uploaded Passport Data Page </a>
+                                                                @endif
+                                                        </div>
                             </div>
                             <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
                                 
@@ -202,11 +219,12 @@
                                                                          focus:ring-blue-100" 
                                   
                                  style="font-family:'Lato';font-size:16px;font-weight:500;"
+                                 accept="image/*"
 
                                  required />
                                     
 
-                                 @error('educational_level')
+                                 @error('data_page')
                                     <span class="text-red-700 text-sm">
                                         {{$message}}
                                     </span>
@@ -219,11 +237,35 @@
                            
                              
                             <!-- submit button //-->
-                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-8">
+                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] mt-8">
                                 <button type="submit" class="border border-1 bg-gray-400 py-4 text-white 
                                                hover:bg-gray-500
                                                rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Save</button>
                             </div>
+
+
+
+
+                            <!-- previous and next navigation //-->
+                            <div class="flex flex-row md:flex-row justify-end items-end w-[80%] md:w-[60%] mt-2 space-x-2">
+                                
+                                <div class="flex">
+                                    <a href="{{ route('application.professional')}}" class=" bg-green-400 py-4 px-4 text-white 
+                                    hover:bg-green-500
+                                    rounded-l-lg text-base" style="font-family:'Lato';font-weight:500;">Previous</a>
+                                </div>
+
+                                @if ($isfilled)
+                                    <div class="flex">
+                                            <a href="{{ route('application.payment')}}" class=" bg-green-400 py-4 px-4 text-white 
+                                            hover:bg-green-500
+                                            rounded-r-lg text-base" style="font-family:'Lato';font-weight:500;">Next</a>
+                                    </div>
+                                @endif
+                           
+                            </div>
+                            <!-- end of previous and next navigation //-->
+
 
                             
 

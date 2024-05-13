@@ -6,20 +6,116 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Passport;
 
 class PassportController extends Controller
 {
     //
     private $section;
+    private $isfilled;
 
     public function __construct(){
         $this->section = "C";
+        $this->isfilled = false;
     }
 
     public function passport()
     {
         $user = Auth::user();
         //dd($user);
-        return view('application.passport')->with(['section' => $this->section, 'user'=> $user]);
+        $passportExist = Passport::where('user_id', auth()->user()->id)->exists();
+        $this->isfilled = $passportExist;
+
+        $passport = '';
+        if($passportExist){
+            $passport = Passport::where('user_id', auth()->user()->id)->first();
+        }else{
+            $passport = new Passport([
+                'passport_no' => '',
+                'issued_date' => '',
+                'issued_month' => '',
+                'issued_year' => '',
+                'data_page' => ''
+            ]);
+        }
+
+        return view('application.passport')->with(['section' => $this->section, 
+                                                   'user'=> $user,
+                                                   'passport' => $passport,
+                                                   'isfilled' => $this->isfilled]);
+    }
+
+
+    public function store(Request $request){
+        $formFields = $request->validate([
+            'passport_no' => ['required'],
+            'issued_day' => 'required',
+            'issued_month' => 'required',
+            'issued_year' => 'required'
+        ]);
+
+       
+
+        if ($request->hasFile('data_page')){
+            $data_page = $request->file('data_page');
+
+            $surname = strtolower(auth()->user()->surname);
+            $firstname = strtolower(auth()->user()->firstname);
+            $filename = $surname.$firstname.auth()->user()->id.".";
+
+
+            $data_page_new_name = $filename.$data_page->getClientOriginalExtension();
+            $data_page->move('passport', $data_page_new_name);
+            $formFields['data_page'] = 'passport/'.$data_page_new_name;
+        }
+
+        $passportExist = Passport::where('user_id', auth()->user()->id)->exists();
+
+        $passport = '';
+        $data = '';
+
+        if ($passportExist){
+            // Passport already exist, do an update
+            $passport = Passport::where('user_id', auth()->user()->id)->first();
+            $op_status = $passport->update($formFields);
+
+            if (!$op_status){
+                $data = [
+                    'error' => true,
+                    'status' => 'fail',
+                    'message' => 'An error occurred updating your Passport Information'
+                ];
+            }else{
+                $data = [
+                    'error' => true,
+                    'status' => 'success',
+                    'message' => 'Your Passort Information has been successfully updated'
+                ];
+            }
+
+        }else{
+            // Passport does not exist, create a record
+            $formFields['user_id'] = auth()->user()->id;
+
+            $op_status = Passport::create($formFields);
+
+            if (!$op_status){
+                $data = [
+                    'error' => true,
+                    'status' => 'fail',
+                    'message' => 'An error occurred saving your Passport Information'
+                ];
+            }else{
+                $data = [
+                    'error' => true,
+                    'status' => 'success',
+                    'message' => 'Your Passport Information has been successfully saved.'
+                ];
+            }
+
+        }       
+
+        return redirect()->back()->with($data);
+
     }
 }

@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pre_registrations', function (Blueprint $table) {
+        Schema::create('passports', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid')->unique();
-            $table->string('surname');            
-            $table->string('firstname');
-            $table->string('middlename');
-            $table->string('email')->unique();
-            $table->string('phone');
+            $table->integer('user_id')->unique();
+            $table->string('passport_no');
+            $table->string('issued_day');
+            $table->string('issued_month');
+            $table->string('issued_year');
+            $table->string('data_page');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pre_registrations');
+        Schema::dropIfExists('passports');
     }
 };

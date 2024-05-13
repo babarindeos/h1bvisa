@@ -41,9 +41,9 @@ class PreRegistrationController extends Controller
 
         //storing data into pre-registration table
         $preRegistration = new PreRegistration();
-        $preRegistration->surname = $request->input('surname');
-        $preRegistration->firstname = $request->input('firstname');
-        $preRegistration->middlename = $request->input('middlename');
+        $preRegistration->surname = ucfirst($request->input('surname'));
+        $preRegistration->firstname = ucfirst($request->input('firstname'));
+        $preRegistration->middlename = ucfirst($request->input('middlename'));
         $preRegistration->email = $request->input('email');
         $preRegistration->phone = $request->input('phone');
         $preRegistration->uuid = $uuid;

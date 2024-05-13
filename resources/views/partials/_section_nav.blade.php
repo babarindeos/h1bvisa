@@ -3,7 +3,9 @@
             <!-- Section A //-->
             <div class="py-2 px-8">
                     <div class='flex flex-col text-center justify-center items-center'>
-                        <div class="flex w-12 h-12 rounded-full @if ($section=='A') bg-gray-500 @else bg-gray-300  @endif  
+                        <div class="flex w-12 h-12 rounded-full @if ($section=='A' && $isfilled==false) bg-gray-500 
+                                                                @elseif ($section=='A' && $isfilled==true) bg-green-700 
+                                                                @elseif ($section!='A' && $isfilled==true) bg-green-300 @else bg-gray-300  @endif  
                                     items-center justify-center text-white font-semibold">
                             A
                         </div>
@@ -18,7 +20,9 @@
             <!-- Section B //-->
             <div class="py-2 px-8">
                     <div class='flex flex-col text-center justify-center items-center'>
-                        <div class="flex w-12 h-12 rounded-full @if ($section=='B') bg-gray-500 @else bg-gray-300  @endif 
+                        <div class="flex w-12 h-12 rounded-full @if ($section=='B' && $isfilled==false) bg-gray-500 
+                                                                @elseif ($section=='B' && $isfilled==true) bg-green-700 
+                                                                @elseif ($section!='B' && $isfilled==true) bg-green-300 @else bg-gray-300  @endif 
                                     items-center justify-center text-white font-semibold">
                             B
                         </div>
@@ -33,7 +37,9 @@
             <!-- Section C //-->
             <div class="py-2 px-8">
                     <div class='flex flex-col text-center justify-center items-center'>
-                        <div class="flex w-12 h-12 rounded-full @if ($section=='C') bg-gray-500 @else  bg-gray-300  @endif 
+                        <div class="flex w-12 h-12 rounded-full @if ($section=='C' && $isfilled==false) bg-gray-500 
+                                                                @elseif ($section=='C' && $isfilled==true) bg-green-700 
+                                                                @elseif ($section!='C' && $isfilled==true) bg-green-300 @else bg-gray-300  @endif 
                                     items-center justify-center
                                    text-white font-semibold">
                             C
