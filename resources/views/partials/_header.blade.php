@@ -22,7 +22,7 @@
                         <div class="flex font-semibold items-center hover:border-b-red-700 hover:border-b-4 mx-3 ">Home</div>
                         <div class="hidden md:flex md:items-center md:justify-center font-semibold items-center hover:border-b-red-700 hover:border-b-4 mx-3 ">About</div>
                         <div class="hidden md:flex md:items-center md:justify-center font-semibold items-center hover:border-b-red-700 hover:border-b-4 mx-3 ">Contact</div>
-                        
+                        <a  href='/login' class="flex font-semibold items-center hover:border-b-red-700 hover:border-b-4 mx-3 ">Sign In</a>
                         
                     
                             

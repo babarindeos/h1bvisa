@@ -8,6 +8,7 @@ use illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Personal;
 use App\Http\Classes\Section;
+use App\Models\ApplicationCompletion;
 
 class PersonalController extends Controller
 {
@@ -16,13 +17,24 @@ class PersonalController extends Controller
     private $isfilled;
     
 
-    public function __construct(){
-        $this->section = "A";
-        
+    public function __construct(){        
+
+        $this->section = "A";     
         
     }
 
     public function personal(){
+
+        //------ check if application has been completed by the user
+        $isCompleted = Section::applicationCompletion(auth()->user()->id);
+    
+        if ($isCompleted){
+            return redirect()->route('application.completed');
+        }
+
+
+
+
         $user = Auth::user();
         //dd($user);
 

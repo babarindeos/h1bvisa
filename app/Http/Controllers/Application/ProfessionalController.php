@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Professional;
 use App\Http\Classes\Section;
+use App\Models\ApplicationCompletion;
+use App\Models\Personal;
 
 class ProfessionalController extends Controller
 {
@@ -14,14 +16,31 @@ class ProfessionalController extends Controller
 
     private $section;
     private $isfilled;
+    
 
     public function __construct(){
+
         $this->section = "B";
         $this->isfilled = false;
     }
 
     public function professional()
     {
+        //------ check if application has been completed by the user
+        $isCompleted = Section::applicationCompletion(auth()->user()->id);
+    
+        if ($isCompleted){
+            return redirect()->route('application.completed');
+        }else{
+
+            // check if the previous section has been filled
+            $isPersonalFilled = Personal::where('user_id', auth()->user()->id)->exists();
+            if (!$isPersonalFilled){
+                return redirect()->route('application.personal');
+            }
+        }
+
+
         $user = Auth::user();
         //dd($user);
 

@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Passport;
 use App\Http\Classes\Section;
+use App\Models\ApplicationCompletion;
+use App\Models\Personal;
+use App\Models\Professional;
 
 class PassportController extends Controller
 {
@@ -15,13 +18,36 @@ class PassportController extends Controller
     private $section;
     private $isfilled;
 
-    public function __construct(){
+    public function __construct(){     
+
         $this->section = "C";
         $this->isfilled = false;
     }
 
     public function passport()
     {
+
+        //------ check if application has been completed by the user
+        $isCompleted = Section::applicationCompletion(auth()->user()->id);
+    
+        if ($isCompleted){
+            return redirect()->route('application.completed');
+        }else{
+            // check if the previous section has been filled
+            $isPersonalFilled = Personal::where('user_id', auth()->user()->id)->exists();
+            $isProfessionalFilled = Professional::where('user_id', auth()->user()->id)->exists();
+            
+            if (!$isPersonalFilled){
+                return redirect()->route('application.personal');
+            }
+
+            if (!$isProfessionalFilled){
+                return redirect()->route('application.professional');
+            }
+        }
+
+
+
         $user = Auth::user();
         //dd($user);
         $passportExist = Passport::where('user_id', auth()->user()->id)->exists();

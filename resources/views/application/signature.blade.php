@@ -8,7 +8,11 @@
                         <form  action="{{ route('signature.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
                             @csrf
 
-                            <div class="flex flex-col w-[80%] md:w-[60%] py-4 mt-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
+                            <div class="flex flex-col w-[80%] md:w-[60%] md:hidden" style="font-family:'Lato'; font-size:18px; font-weight:400;">
+                                <h2 class="font-semibold text-xl py-1 text-gray-500" >6 of 6</h2>                                               
+                            </div>
+
+                            <div class="flex flex-col w-[80%] md:w-[60%] py-2 md:py-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
                                 <h2 class="font-semibold text-xl py-1" >Signature</h2>
                                 Upload a clear signature picture. 
                             </div>

@@ -23,7 +23,8 @@ use App\Http\Controllers\Application\SignatureController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome');
+    return view('pre-registration.index');
 });
 
 Route::get('/pre-registration', [PreRegistrationController::class, 'index'])->name('pre-registration.index');
@@ -62,6 +63,10 @@ Route::prefix('application')->middleware(['auth','verified'])->group(function(){
     Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
 
     Route::get('/finish', [ApplicationController::class, 'finish'])->name('application.finish');
+    Route::post('/finish', [ApplicationController::class, 'finalize'])->name('application.finalize');
+
+    Route::get('/completed', [ApplicationController::class, 'completed'])->name('application.completed');
+
 });
 
 //Route::get('/application', [ApplicationController::class, 'personal'])->middleware(['auth','verified'])->name('application.personal');

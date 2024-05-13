@@ -9,6 +9,7 @@
     use App\Models\Payment;
     use App\Models\Photograph;
     use App\Models\Signature;
+    use App\Models\ApplicationCompletion;
     
 
     class Section implements SectionFilledInterface{
@@ -36,6 +37,11 @@
 
             
             return $dataObj;
+        }
+
+        public static function applicationCompletion($user_id){
+            $isCompleted = ApplicationCompletion::where('user_id', $user_id)->exists();
+            return $isCompleted;
         }
 
 

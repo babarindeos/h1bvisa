@@ -8,7 +8,11 @@
                         <form  action="{{ route('payment.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
                             @csrf
 
-                            <div class="flex flex-col w-[80%] md:w-[60%] py-2 mt-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
+                            <div class="flex flex-col w-[80%] md:w-[60%] md:hidden" style="font-family:'Lato'; font-size:18px; font-weight:400;">
+                                <h2 class="font-semibold text-xl py-1 text-gray-500" >4 of 6</h2>                                               
+                            </div>
+
+                            <div class="flex flex-col w-[80%] md:w-[60%] py-2 md:py-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
                                 <h2 class="font-semibold text-xl py-1" >Payment</h2>
                                 Provide details of your offline payment or make payment online. 
                             </div>
