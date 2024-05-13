@@ -16,6 +16,14 @@ class ApplicationController extends Controller
 
     }
 
+    public function start(){
+
+    }
+
+    public function finish(){
+        
+    }
+
 
     
 }

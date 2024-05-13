@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Passport;
+use App\Http\Classes\Section;
 
 class PassportController extends Controller
 {
@@ -24,7 +25,7 @@ class PassportController extends Controller
         $user = Auth::user();
         //dd($user);
         $passportExist = Passport::where('user_id', auth()->user()->id)->exists();
-        $this->isfilled = $passportExist;
+        $this->isfilled = Section::sectionFilledState($user->id);
 
         $passport = '';
         if($passportExist){

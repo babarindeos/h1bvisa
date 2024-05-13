@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Professional;
+use App\Http\Classes\Section;
 
 class ProfessionalController extends Controller
 {
@@ -25,7 +26,8 @@ class ProfessionalController extends Controller
         //dd($user);
 
         $professionalExist = Professional::where('user_id', auth()->user()->id)->exists();
-        $this->isfilled = $professionalExist;
+        $this->isfilled = Section::sectionFilledState($user->id);
+
 
         $professional = '';
         

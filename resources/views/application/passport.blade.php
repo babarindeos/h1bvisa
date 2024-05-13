@@ -255,7 +255,7 @@
                                     rounded-l-lg text-base" style="font-family:'Lato';font-weight:500;">Previous</a>
                                 </div>
 
-                                @if ($isfilled)
+                                @if ($isfilled->passport)
                                     <div class="flex">
                                             <a href="{{ route('application.payment')}}" class=" bg-green-400 py-4 px-4 text-white 
                                             hover:bg-green-500

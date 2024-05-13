@@ -38,6 +38,8 @@ Route::get('/dashboard', function () {
 Route::prefix('application')->middleware(['auth','verified'])->group(function(){
     Route::get('/', [ApplicationController::class, 'index'])->name('application.index');
 
+    Route::get('/start', [ApplicationController::class, 'start'])->name('application.start');
+
     Route::get('/personal', [PersonalController::class, 'personal'])->name('application.personal');
     Route::post('/personal', [PersonalController::class, 'store'])->name('personal.store');
 
@@ -49,8 +51,17 @@ Route::prefix('application')->middleware(['auth','verified'])->group(function(){
 
 
     Route::get('/payment', [PaymentController::class, 'payment'])->name('application.payment');
+    Route::post('/payment', [PaymentController::class, 'store'])->name('payment.store');
+
+
     Route::get('/photograph', [PhotographController::class, 'photograph'])->name('application.photograph');
+    Route::post('/photograph', [PhotographController::class, 'store'])->name('photograph.store');
+
+
     Route::get('/signature', [SignatureController::class, 'signature'])->name('application.signature');
+    Route::post('/signature', [SignatureController::class, 'store'])->name('signature.store');
+
+    Route::get('/finish', [ApplicationController::class, 'finish'])->name('application.finish');
 });
 
 //Route::get('/application', [ApplicationController::class, 'personal'])->middleware(['auth','verified'])->name('application.personal');

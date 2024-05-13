@@ -557,7 +557,7 @@
 
                                             <!-- previous and next navigation //-->
                                             <div class="flex flex-col md:flex-row justify-end items-end w-[80%] md:w-[60%] mt-2">
-                                                    @if ($isfilled)
+                                                    @if ($isfilled->personal)
                                                         <div class="flex">
                                                                 <a href="{{ route('application.professional')}}" class=" bg-green-400 py-4 px-4 text-white 
                                                                 hover:bg-green-500

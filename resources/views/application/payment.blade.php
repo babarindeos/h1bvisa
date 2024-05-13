@@ -5,10 +5,10 @@
         <div class="flex flex-col w-full md:w-full mx-auto items-center py-4">
             
                 
-                        <form  action="{{ route('pre-registration.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
+                        <form  action="{{ route('payment.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-[80%] items-center justify-center">
                             @csrf
 
-                            <div class="flex flex-col w-[80%] md:w-[60%] py-2 mt-4" style="font-family:'Lato'; font-size:18px; font-weight:350;">
+                            <div class="flex flex-col w-[80%] md:w-[60%] py-2 mt-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
                                 <h2 class="font-semibold text-xl py-1" >Payment</h2>
                                 Provide details of your offline payment or make payment online. 
                             </div>
@@ -22,12 +22,12 @@
                             @if (session('error'))
 
                                 @if (session('status')=='success')
-                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-semibold" 
+                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-medium" 
                                             style="font-family:'Lato'; font-size:16px;"> 
                                         {{ session('message') }}
                                     </span>
                                 @else
-                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-semibold" 
+                                    <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-medium" 
                                             style="font-family:'Lato'; font-size:16px;">
                                         {{ session('message') }}
                                     </span>
@@ -38,7 +38,7 @@
 
                             <!-- Offline Payment //-->
                             <div class="flex flex-row w-[80%] md:flex-row md:w-[60%] space-x-3 ">
-                                    <input type="radio" name="payment" value="offline" checked/>
+                                    <input type="radio" name="payment_mode" value="offline" checked/>
                                     <label for="payment_offline" class="font-semibold" style="font-family:'Lato';font-weight:600;">Offline Payment</label>
                                                     
                             </div>
@@ -49,7 +49,7 @@
                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[100%] py-2">
                                     
                                         
-                                        <input type="text" name="payment_name" class="border border-1 border-gray-400 bg-gray-50
+                                        <input type="text" name="account_name" class="border border-1 border-gray-400 bg-gray-50
                                                                                 w-full p-4 rounded-md 
                                                                                 focus:outline-none
                                                                                 focus:border-blue-500 
@@ -58,10 +58,11 @@
                                                                                 
                                                                                 style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
                                                                                 
+                                                                                value="{{$payment->account_name}}"
                                                                                 />  
                                                                                                                                                     
 
-                                                                                @error('payment_name')
+                                                                                @error('account_name')
                                                                                     <span class="text-red-700 text-sm">
                                                                                         {{$message}}
                                                                                     </span>
@@ -83,7 +84,7 @@
                                                                                 focus:ring-blue-100" placeholder="Bank Name"
                                                                                 
                                                                                 style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
-                                                                                
+                                                                                value="{{$payment->bank_name}}"
                                                                                 />  
                                                                                                                                                     
 
@@ -110,10 +111,11 @@
                                                                                 
                                                                                 style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
                                                                                 
+                                                                                value="{{$payment->account_number}}"
                                                                                 />  
                                                                                                                                                     
 
-                                                                                @error('account_no')
+                                                                                @error('account_number')
                                                                                     <span class="text-red-700 text-sm">
                                                                                         {{$message}}
                                                                                     </span>
@@ -129,12 +131,18 @@
                                                             
                                                             <label for="day" class="font-semibold" style="font-family:'Lato';">Upload Payment Receipt</label>
                                                             <div style="font-family:'Lato';" class='text-sm'>Upload a picture of the receipt of your payment</div>
-                                                        
+
+                                                            
+                                                            <div class='bg-green-100 px-2 py-2 rounded-md mt-1'>
+                                                                @if ($payment->receipt!='')
+                                                                    <a class="text-sm hover:underline" target='_blank' href="{{asset($payment->receipt)}}">Uploaded Evidence of Payment </a>
+                                                                @endif
+                                                            </div>
                                     </div>
                                     <div class="flex flex-col border-red-900 w-[100%] md:w-[100%] py-2">
                                             
                                             
-                                            <input type="file" name="data_page" class="border border-1 border-gray-400 bg-gray-50
+                                            <input type="file" name="receipt" class="border border-1 border-gray-400 bg-gray-50
                                                                                     w-full p-4 rounded-md 
                                                                                     focus:outline-none
                                                                                     focus:border-blue-500 
@@ -143,7 +151,7 @@
                                             
                                             style="font-family:'Lato';font-size:16px;font-weight:500;"
 
-                                            required />
+                                            />
                                                 
 
                                             @error('receipt')
@@ -165,7 +173,7 @@
 
                             <!-- Online Payment //-->
                             <div class="flex flex-row w-[80%] md:flex-row md:w-[60%] space-x-3 mt-4">
-                                    <input type="radio" name="payment" value="online" id="online_rad"/>
+                                    <input type="radio" name="payment_mode" value="online" id="online_rad"/>
                                     <label for="payment_online" class="font-semibold" style="font-family:'Lato';font-weight:600;">Pay Online</label>
                                                     
                             </div>
@@ -189,11 +197,31 @@
                            
                              
                             <!-- submit button //-->
-                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-8">
+                            <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] mt-8">
                                 <button type="submit" class="border border-1 bg-gray-400 py-4 text-white 
                                                hover:bg-gray-500
                                                rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Save</button>
                             </div>
+
+                            <!-- previous and next navigation //-->
+                            <div class="flex flex-row md:flex-row justify-end items-end w-[80%] md:w-[60%] mt-2 space-x-2">
+                                
+                                <div class="flex">
+                                    <a href="{{ route('application.passport')}}" class=" bg-green-400 py-4 px-4 text-white 
+                                    hover:bg-green-500
+                                    rounded-l-lg text-base" style="font-family:'Lato';font-weight:500;">Previous</a>
+                                </div>
+
+                                @if ($isfilled->payment)
+                                    <div class="flex">
+                                            <a href="{{ route('application.photograph')}}" class=" bg-green-400 py-4 px-4 text-white 
+                                            hover:bg-green-500
+                                            rounded-r-lg text-base" style="font-family:'Lato';font-weight:500;">Next</a>
+                                    </div>
+                                @endif
+                           
+                            </div>
+                            <!-- end of previous and next navigation //-->
 
                             
 
@@ -212,7 +240,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("input[type=radio][name=payment]").change(function(){
+        $("input[type=radio][name=payment_mode]").change(function(){
             var selected_value = $(this).val();
             
 

@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Personal;
+use App\Http\Classes\Section;
 
 class PersonalController extends Controller
 {
     //
     private $section;
     private $isfilled;
+    
 
     public function __construct(){
         $this->section = "A";
-        $this->isfilled = false;
+        
+        
     }
 
     public function personal(){
@@ -24,9 +27,10 @@ class PersonalController extends Controller
         //dd($user);
 
         $personalExist = Personal::where('user_id', auth()->user()->id)->exists();
-        $this->isfilled = $personalExist;
+        $this->isfilled = Section::sectionFilledState($user->id);
 
         
+          
 
         if ($personalExist){
             $personal = Personal::where('user_id', auth()->user()->id)->first();
